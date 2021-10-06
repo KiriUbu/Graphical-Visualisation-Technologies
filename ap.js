@@ -16,7 +16,7 @@ var fragmentShaderText=
         '',
         'void main()',
         '{',
-        ' gl_FragColor=vec4(1.0,0.0,0.0,1.0)',
+        ' gl_FragColor=vec4(1.0,0.0,0.0,1.0);',
         '}'
 
     ].join('\n');
@@ -55,6 +55,15 @@ var InitDemo = function (){
     gl.compileShader(fragmentShader);
     if(!gl.getShaderParameter(fragmentShader,gl.COMPILE_STATUS)){
         console.error('ERROR fragementShader konnte nicht compiliert werden !!!!',gl.getShaderInfoLog(fragmentShader));
+        return;
+    }
+
+    var program = gl.createProgram();
+    gl.attachShader(program,vertexShader);
+    gl.attachShader(program,fragmentShader);
+    gl.linkProgram(program);
+    if(gl.getProgramParameter(program,gl.LINK_STATUS)){
+        console.error('ERROR linking von Prgromm hat nicht geklappt', gl.getProgramInfoLog(program));
         return;
     }
 
