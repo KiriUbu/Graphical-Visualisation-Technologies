@@ -12,8 +12,6 @@ var InitDemo = function (){
         alert("dein Browser unterstützt kein WebGl")
     }
 
+    gl.clearColor(121,140,50,1.0)
 
-    canvas.with = window.innerWidth;
-    canvas.height=window.innerHeight;
-    gl.viewport(0,0,window.innerWidth,window.innerHeight)
 };
