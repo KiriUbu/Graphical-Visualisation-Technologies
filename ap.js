@@ -7,7 +7,7 @@ var vertexShaderText =
         'void main()',
         '{',
         ' gl_Position = vec4(vertPosition, 0.0,1.0);',
-        '}',
+        '}'
     ].join('\n');
 
 var fragmentShaderText=
@@ -17,7 +17,7 @@ var fragmentShaderText=
         'void main()',
         '{',
         ' gl_FragColor=vec4(1.0,0.0,0.0,1.0);',
-        '}',
+        '}'
 
     ].join('\n');
 
