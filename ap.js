@@ -52,9 +52,11 @@ var InitDemo = function (){
         console.error('ERROR vertexShader konnte nicht compiliert werden !!!!',gl.getShaderInfoLog(vertexShader));
         return;
     }
-
     gl.compileShader(fragmentShader);
-
+    if(!gl.getShaderParameter(fragmentShader,gl.COMPILE_STATUS)){
+        console.error('ERROR vertexShader konnte nicht compiliert werden !!!!',gl.getShaderInfoLog(fragmentShader));
+        return;
+    }
 
 };
 
