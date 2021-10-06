@@ -1,3 +1,26 @@
+var vertexShaderText =
+    [
+        'precision mediump float;',
+        '',
+        'attribute vec2 vertPositions;',
+        '',
+        'void main()',
+        '{',
+        ' gl_Position = vec4(vertPosition, 0.0,1.0);',
+        '}',
+    ].join('\n');
+
+var fragmentShaderText=
+    [
+        'precision mediump float;',
+        '',
+        'void main()',
+        '{',
+        ' gl_FragColor=vec4(1.0,0.0,0.0,1.0);',
+        '}',
+
+    ].join('\n');
+
 var InitDemo = function (){
     console.log("Alles funktioniert");
 
@@ -12,7 +35,26 @@ var InitDemo = function (){
         alert("dein Browser unterstützt kein WebGl")
     }
 
-    gl.clearColor(125,.5,.5,1.0);
+    gl.clearColor(.78,.5,.5,1.0);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
+    //
+    // Create Shader
+    //
+    var vertexShader = gl.createShader(gl.VERTEX_SHADER);
+    var fragmentShader=gl.createShader(gl.FRAGMENT_SHADER);
+
+    gl.shaderSource(vertexShader, vertexShaderText);
+    gl.shaderSource(fragmentShader,fragmentShaderText);
+
+    gl.compileShader(vertexShader);
+    if(!gl.getShaderParameter(vertexShader,gl.COMPILE_STATUS)){
+        console.error('ERROR vertexShader konnte nicht compiliert werden !!!!',gl.getShaderInfoLog(vertexShader));
+        return;
+    }
+
+    gl.compileShader(fragmentShader);
+
+
 };
+
