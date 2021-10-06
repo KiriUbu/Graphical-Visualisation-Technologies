@@ -2,7 +2,7 @@ var vertexShaderText =
     [
         'precision mediump float;',
         '',
-        'attribute vec2 vertPositions;',
+        'attribute vec2 vertPosition;',
         '',
         'void main()',
         '{',
