@@ -12,7 +12,7 @@ var InitDemo = function (){
         alert("dein Browser unterstützt kein WebGl")
     }
 
-    gl.clearColor(121,140,50,1.0);
+    gl.clearColor(0.75,.5,.5,1.0);
     gk.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
 };
