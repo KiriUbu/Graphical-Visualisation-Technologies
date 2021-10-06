@@ -67,5 +67,10 @@ var InitDemo = function (){
         return;
     }
 
+    gl.validateProgram(program);
+    if(!gl.getProgramParameter(program,gl.VALIDATE_STATUS)){
+        console.error('ERROR in PRogram Validierung', gl.getProgramInfoLog(program));
+        return;
+    }
 };
 
