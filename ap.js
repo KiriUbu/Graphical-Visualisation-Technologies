@@ -41,6 +41,7 @@ var InitDemo = function (){
     //
     // Create Shader
     //
+    console.log("Starte Create Shaders Block ");
     var testScore = 0;
     var vertexShader = gl.createShader(gl.VERTEX_SHADER);
     var fragmentShader=gl.createShader(gl.FRAGMENT_SHADER);
