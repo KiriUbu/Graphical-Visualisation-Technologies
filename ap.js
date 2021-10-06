@@ -55,7 +55,7 @@ var InitDemo = function (){
         return;
     }else{
         console.log('vertexShader wurde erfolgreich compiliert');
-        testScore = +1;
+        testScore +=1;
     }
     gl.compileShader(fragmentShader);
     if(!gl.getShaderParameter(fragmentShader,gl.COMPILE_STATUS)){
@@ -63,7 +63,7 @@ var InitDemo = function (){
         return;
     }else{
         console.log('fragementShader wurde erfolgreich compiliert');
-        testScore = +1;
+        testScore +=1;
     }
 
     var program = gl.createProgram();
@@ -75,7 +75,7 @@ var InitDemo = function (){
         return;
     }else{
         console.log('Program wurde erfolgreich gelinkt');
-        testScore = +1;
+        testScore +=1;
     }
 
     gl.validateProgram(program);
@@ -83,8 +83,8 @@ var InitDemo = function (){
         console.error('ERROR in PRogram Validierung', gl.getProgramInfoLog(program));
         return;
     }else{
-        console.log('Program wurde erfolgreich velideirt');
-        testScore = +1;
+        console.log('Program wurde erfolgreich validiert');
+        testScore +=1;
     }
 
     console.log(testScore);
