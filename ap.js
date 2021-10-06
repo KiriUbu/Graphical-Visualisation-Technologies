@@ -41,6 +41,7 @@ var InitDemo = function (){
     //
     // Create Shader
     //
+    var testScore = 0;
     var vertexShader = gl.createShader(gl.VERTEX_SHADER);
     var fragmentShader=gl.createShader(gl.FRAGMENT_SHADER);
 
@@ -51,26 +52,40 @@ var InitDemo = function (){
     if(!gl.getShaderParameter(vertexShader,gl.COMPILE_STATUS)){
         console.error('ERROR vertexShader konnte nicht compiliert werden !!!!',gl.getShaderInfoLog(vertexShader));
         return;
+    }else{
+        console.log('vertexShader wurde erfolgreich compiliert');
+        testScore = +1;
     }
     gl.compileShader(fragmentShader);
     if(!gl.getShaderParameter(fragmentShader,gl.COMPILE_STATUS)){
         console.error('ERROR fragementShader konnte nicht compiliert werden !!!!',gl.getShaderInfoLog(fragmentShader));
         return;
+    }else{
+        console.log('fragementShader wurde erfolgreich compiliert');
+        testScore = +1;
     }
 
     var program = gl.createProgram();
     gl.attachShader(program,vertexShader);
     gl.attachShader(program,fragmentShader);
     gl.linkProgram(program);
-    if(gl.getProgramParameter(program,gl.LINK_STATUS)){
+    if(!gl.getProgramParameter(program,gl.LINK_STATUS)){
         console.error('ERROR linking von Prgromm hat nicht geklappt', gl.getProgramInfoLog(program));
         return;
+    }else{
+        console.log('Program wurde erfolgreich gelinkt');
+        testScore = +1;
     }
 
     gl.validateProgram(program);
     if(!gl.getProgramParameter(program,gl.VALIDATE_STATUS)){
         console.error('ERROR in PRogram Validierung', gl.getProgramInfoLog(program));
         return;
+    }else{
+        console.log('Program wurde erfolgreich velideirt');
+        testScore = +1;
     }
+
+    console.log(testScore);
 };
 
