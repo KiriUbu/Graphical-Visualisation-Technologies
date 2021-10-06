@@ -13,6 +13,6 @@ var InitDemo = function (){
     }
 
     gl.clearColor(0.75,.5,.5,1.0);
-    gk.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
 };
