@@ -93,6 +93,20 @@ var InitDemo = function (){
         console.log(testScore + "/4 Test bestanden");
     }
 
+    //
+    // Create Buffer
+    //
 
-    };
+    var triangleVertices=
+        [// X, Y
+             0.0, 0.5,
+            -0.5,-0.5,
+             0.5,-0.5
+        ];
+
+    var triangelVertexBufferObject= gl.createBuffer();
+    gl.bind(gl.ARRAY_BUFFER, triangelVertexBufferObject);
+    gl.bufferData(gl.ARRAY_BUFFER,triangleVertices,gl.STATIC_DRAW);
+
+};
 
