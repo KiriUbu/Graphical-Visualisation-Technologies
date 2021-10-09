@@ -106,7 +106,27 @@ var InitDemo = function (){
 
     var triangelVertexBufferObject= gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, triangelVertexBufferObject);
-    gl.bufferData(gl.ARRAY_BUFFER,triangleVertices,gl.STATIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(triangleVertices),gl.STATIC_DRAW);
+
+    var positionAttribLocation = gl.getAttribLocation(program,'vertPosition');
+    gl.vertexAttribPointer(
+        positionAttribLocation, // Atribute location
+        2, // Number of elements per attribute
+        gl.FLOAT,
+        gl.FALSE,
+        2 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
+        0 // Offset from the beginning of a single vertex to thi attribute
+
+    );
+
+    gl.enableVertexAttribArray(positionAttribLocation);
+
+
+    //
+    // Main render loop
+    //
+    gl.useProgram(program);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
 
 };
 
