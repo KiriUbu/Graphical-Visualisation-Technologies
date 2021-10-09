@@ -87,6 +87,12 @@ var InitDemo = function (){
         testScore +=1;
     }
 
-    console.log(testScore);
-};
+    if(testScore = 4){
+        console.log("4/4 Test bestanden");
+    }else {
+        console.log(testScore + "/4 Test bestanden");
+    }
+
+
+    };
 
