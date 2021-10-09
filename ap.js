@@ -105,7 +105,7 @@ var InitDemo = function (){
         ];
 
     var triangelVertexBufferObject= gl.createBuffer();
-    gl.bind(gl.ARRAY_BUFFER, triangelVertexBufferObject);
+    gl.bindBuffer(gl.ARRAY_BUFFER, triangelVertexBufferObject);
     gl.bufferData(gl.ARRAY_BUFFER,triangleVertices,gl.STATIC_DRAW);
 
 };
