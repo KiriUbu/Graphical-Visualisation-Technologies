@@ -40,6 +40,14 @@
     <div class="wheel">
         <div class="card"></div>
     </div>
+    <script>
+        let rot= Math.PI / 4.0;
+        const card1 = document.querySelector('.card');
+        card1.style.left= `${Math.cos(rot)}px`;
+        card1.style.top= `${Math.sin(rot)}px`;
+
+
+    </script>
 
 </body>
 </html>
