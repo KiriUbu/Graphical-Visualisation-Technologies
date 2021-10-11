@@ -43,8 +43,12 @@
     <script>
         let rot= Math.PI / 4.0;
         const card1 = document.querySelector('.card');
-        card1.style.left= `${Math.cos(rot)}px`;
-        card1.style.top= `${Math.sin(rot)}px`;
+        const center ={
+            x : parseFloat(getComputedStyle(card1).left),
+            y : parseFloat(getComputedStyle(card1).top)
+        };
+        card1.style.left= `${center.x + Math.cos(rot)}px`;
+        card1.style.top= `${center.y + Math.sin(rot)}px`;
 
 
     </script>
