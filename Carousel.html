@@ -42,13 +42,14 @@
     </div>
     <script>
         let rot= Math.PI / 4.0;
+        let wheel_radius = 150.00;
         const card1 = document.querySelector('.card');
         const center ={
             x : parseFloat(getComputedStyle(card1).left),
             y : parseFloat(getComputedStyle(card1).top)
         };
-        card1.style.left= `${center.x + Math.cos(rot)}px`;
-        card1.style.top= `${center.y + Math.sin(rot)}px`;
+        card1.style.left= `${center.x + (Math.cos(rot) * wheel_radius)}px`;
+        card1.style.top= `${center.y + (-1.0 * Math.sin(rot) * wheel_radius )}px`;
 
 
     </script>
