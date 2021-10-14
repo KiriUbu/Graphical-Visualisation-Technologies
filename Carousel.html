@@ -55,6 +55,8 @@
 
         let wheel_radius = 210.00;
         const cards = document.querySelectorAll('.card');
+        const wheel = document.querySelectorAll('.wheel');
+
         const center ={
             x : parseFloat(getComputedStyle(cards[0]).left),
             y : parseFloat(getComputedStyle(cards[0]).top)
@@ -69,6 +71,9 @@
             card.style.top= `${center.y + new_y }px`;
         });
 
+        document.addEventListener('wheel', event => {
+            console.log(event);
+        });
 
 
     </script>
