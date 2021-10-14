@@ -40,14 +40,14 @@
 <body>
 
     <div class="wheel">
-        <img src="./pics/ledZ.jpeg" class="card"></img>
-        <img src="./pics/BirdyNum.jpg" class="card"></img>
-        <img src="./pics/deadmau5.jpg" class="card"></img>
-        <img src="./pics/nirvana.jpg" class="card"></img>
-        <img src="./pics/sido.jpg" class="card"></img>
-        <img src="./pics/tool-fear-inoculum.jpg" class="card"></img>
-        <img src="./pics/eminem.jpeg" class="card"></img>
-        <img src="./pics/fukked.jpg" class="card"></img>
+        <img src="./pics/ledZ.jpeg" class="card" name="0"></img>
+        <img src="./pics/BirdyNum.jpg" class="card" name="1"></img>
+        <img src="./pics/deadmau5.jpg" class="card" name="2"></img>
+        <img src="./pics/nirvana.jpg" class="card" name="3"></img>
+        <img src="./pics/sido.jpg" class="card" name="4"></img>
+        <img src="./pics/tool-fear-inoculum.jpg" class="card" name="5"></img>
+        <img src="./pics/eminem.jpeg" class="card" name="6"></img>
+        <img src="./pics/fukked.jpg" class="card" name="7"></img>
 
 
     </div>
@@ -89,10 +89,68 @@
             });
         });
 
-        cards.forEach((card, i) => {
-            card[i].addEventListener('click',console.log(i),false);
+        cards.forEach(card  => {
+            card.addEventListener('click', event => {
+                console.log(card.name);
+                rotateCards(card.name);
+            });
         });
 
+        var audio = new Audio("");
+
+        function rotateCards(degree){
+            let coverDeg=0
+            switch (degree){
+                case "0":
+                    console.log("Led Zepllin");
+                    coverDeg =-91.0;
+                    wheel_rot=-91.0/ (180/Math.PI);
+                    track="";
+                break;
+                case "1":
+                    console.log("BirdyNumNum");
+                    coverDeg =-45.0;
+                    wheel_rot=-45.0/ (180/Math.PI);
+                break;
+                case "2":
+                    console.log("deadmau5");
+                    coverDeg =0;
+                    wheel_rot=0;
+                    break;
+                case "3":
+                    console.log("Nirvana");
+                    coverDeg =-315;
+                    wheel_rot=-315/ (180/Math.PI);
+                    break;
+                case "4":
+                    console.log("Sido");
+                    coverDeg =-270;
+                    wheel_rot=-270/ (180/Math.PI);
+                    break;
+                case "5":
+                    console.log("Tool");
+                    coverDeg =-224;
+                    wheel_rot=-224/ (180/Math.PI);
+                    break;
+                case "6":
+                    console.log("Eminem");
+                    coverDeg =-180;
+                    wheel_rot=-180/ (180/Math.PI);
+                    break;
+                case "7":
+                    console.log("FukkedUp");
+                    coverDeg =-133;
+                    wheel_rot=-133/ (180/Math.PI);
+                    break;
+            }
+
+            audio.play();
+            wheel.style.transform = `translate(-50%, -50%) rotate(${coverDeg}deg)`;
+            cards.forEach((card, index) =>{
+                card.style.transform = `translate(-50%, -50%) rotate(${-1*(coverDeg)}deg)`;
+                console.log(wheel_rot);
+            });
+        }
     </script>
 
 </body>
