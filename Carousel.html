@@ -10,12 +10,24 @@
             padding: 0;
             width: 100vw;
             height: 100vh;
+
+        }
+
+        .background{
+            width: 600px;
+            height: 600px;
+            position: absolute;
+
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+
         }
 
         .wheel{
             width: 300px;
             height: 300px;
-            background-color: blue;
+            background-color: rgba(217, 202, 179,0.5);
 
             position: absolute;
             left: 50%;
@@ -38,6 +50,8 @@
     </style>
 </head>
 <body>
+<div class="background" id="background"></div>
+
 
     <div class="wheel">
         <img src="./pics/ledZ.jpeg" class="card" name="0"></img>
@@ -51,6 +65,8 @@
     </div>
 
 
+
+
     <script>
         let rot= Math.PI / 4.0;
         let new_rot = 0.0;
@@ -62,10 +78,13 @@
 
         const cards = document.querySelectorAll('.card');
         const wheel = document.querySelector('.wheel');
+        const background = document.getElementById('background');
+
         const center ={
             x : parseFloat(getComputedStyle(cards[0]).left),
             y : parseFloat(getComputedStyle(cards[0]).top)
         };
+
 
         cards.forEach((card, index)=> {
             new_rot = rot * index;
@@ -116,80 +135,104 @@
 
 
         function rotateCards(degree){
-            let coverDeg=0
+            let coverDeg=0.0;
+            let oldDeg=wheel_rot * (180/Math.PI);
+
             switch (degree){
                 case "0":
                     console.log("Led Zepllin");
                     coverDeg =-91.0;
                     wheel_rot=-91.0/ (180/Math.PI);
                     track="./music/Kashmir_Remaster_.mp3";
-                    chooseSong(track);
-                    playSong();
+                    background.style.backgroundImage = `url("./pics/ledZ.jpeg")`;
                     break;
                 case "1":
                     console.log("BirdyNumNum");
                     coverDeg =-45.0;
                     wheel_rot=-45.0/ (180/Math.PI);
                     track="./music/Birdy Nam Nam - The Parachute Ending.mp3";
-                    chooseSong(track);
-                    playSong();
+                    background.style.backgroundImage = `url("./pics/BirdyNum.jpg")`;
                     break;
                 case "2":
                     console.log("deadmau5");
                     coverDeg =0;
                     wheel_rot=0;
                     track="./music/Deadmau5 - Strobe.mp3";
-                    chooseSong(track);
-                    playSong();
+                    background.style.backgroundImage = `url("./pics/deadmau5.jpg")`;
                     break;
                 case "3":
                     console.log("Nirvana");
                     coverDeg =-315;
                     wheel_rot=-315/ (180/Math.PI);
                     track="./music/Nirvana - Come As You Are.mp3";
-                    chooseSong(track);
-                    playSong();
+                    background.style.backgroundImage = `url("./pics/nirvana.jpg")`;
                     break;
                 case "4":
                     console.log("Sido");
                     coverDeg =-270;
                     wheel_rot=-270/ (180/Math.PI);
                     track="./music/Sido-Endlich Wochenende.mp3";
-                    chooseSong(track);
-                    playSong();
+                    background.style.backgroundImage = `url("./pics/sido.jpg")`;
                     break;
                 case "5":
                     console.log("Tool");
                     coverDeg =-224;
                     wheel_rot=-224/ (180/Math.PI);
                     track="./music/TOOL - Sober.mp3";
-                    chooseSong(track);
-                    playSong();
+                    background.style.backgroundImage = `url("./pics/tool-fear-inoculum.jpg")`;
                     break;
                 case "6":
                     console.log("Eminem");
                     coverDeg =-180;
                     wheel_rot=-180/ (180/Math.PI);
                     track="./music/Eminem - Stan-ft. Dido.mp3";
-                    chooseSong(track);
-                    playSong();
+                    background.style.backgroundImage = `url("./pics/eminem.jpeg")`;
                     break;
                 case "7":
                     console.log("FukkedUp");
                     coverDeg =-133;
                     wheel_rot=-133/ (180/Math.PI);
                     track="./music/FUKKED UP - Bad Luck.mp3";
-                    chooseSong(track);
-                    playSong();
+                    background.style.backgroundImage = `url("./pics/fukked.jpg")`;
                     break;
             }
 
 
-            wheel.style.transform = `translate(-50%, -50%) rotate(${coverDeg}deg)`;
-            cards.forEach((card, index) =>{
-                card.style.transform = `translate(-50%, -50%) rotate(${-1*(coverDeg)}deg)`;
-                console.log(wheel_rot);
+            chooseSong(track);
+            playSong();
+            var differenz=oldDeg-coverDeg
+            console.log("Differenz ");
+            console.log(differenz);
+
+            var add=0.0
+            var id = setInterval(function (){
+                if (differenz > 0){
+                    if (add >differenz){
+                        clearInterval(id);
+                    }else {
+                        wheel.style.transform = `translate(-50%, -50%) rotate(${coverDeg+add}deg)`;
+                        cards.forEach((card, index) =>{
+                            card.style.transform = `translate(-50%, -50%) rotate(${-1*(coverDeg+add)}deg)`;
+                            console.log(wheel_rot);
+                        });
+                        add ++;
+                    }
+                }else{
+                    if (add <differenz){
+                        clearInterval(id);
+                    }else {
+                        wheel.style.transform = `translate(-50%, -50%) rotate(${coverDeg+add}deg)`;
+                        cards.forEach((card, index) =>{
+                            card.style.transform = `translate(-50%, -50%) rotate(${-1*(coverDeg+add)}deg)`;
+                            console.log(wheel_rot);
+                        });
+                        add --;
+                    }
+                }
+
+
             });
+
         }
     </script>
 
