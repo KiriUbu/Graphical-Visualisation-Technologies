@@ -75,6 +75,7 @@
 
         document.addEventListener('wheel', event => {
             let scroll_speed= event.deltaY;
+            console.log(event);
             wheel_rot= wheel_rot + scroll_speed;
             wheel.style.transform = `translate(-50%, -50%) rotate(${wheel_rot}deg)`;
         });
