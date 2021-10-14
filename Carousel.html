@@ -14,31 +14,67 @@
         }
 
         .background{
-            width: 600px;
-            height: 600px;
+            width: 150px;
+            height: 150px;
             position: absolute;
-
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: 50% 50%;
             left: 50%;
             top: 50%;
             transform: translate(-50%,-50%);
 
         }
 
-        .wheel{
-            width: 300px;
-            height: 300px;
-            background-color: rgba(217, 202, 179,0.5);
+        .thirdCircle{
+            width: 800px;
+            height: 800px;
+            background-color: rgb(33, 33, 33);
 
             position: absolute;
             left: 50%;
             top: 50%;
             transform: translate(-50%,-50%);
+            border-radius: 50%;
 
+        }
+        .secondCircle{
+            width: 650px;
+            height: 650px;
+            background-color: rgb(217, 202, 179);
+
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            border-radius: 50%;
+
+        }
+        .wheel{
+            width: 450px;
+            height: 450px;
+            background-color: rgb(109, 152, 134);
+
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            border-radius: 50%;
+
+        }
+
+        .playtext{
+
+            position: absolute;
+            left: 50%;
+            top: 60%;
+            transform: translate(-50%,-50%);
+            color: rgb(246, 246, 246);
         }
 
         .card {
-            width: 150px;
-            height: 150px;
+            width: 140px;
+            height: 140px;
             background-color: red;
 
             position: absolute;
@@ -50,8 +86,9 @@
     </style>
 </head>
 <body>
-<div class="background" id="background"></div>
 
+<div class="thirdCircle" id="thirdCircle"></div>
+<div class="secondCircle" id="secondCircle"></div>
 
     <div class="wheel">
         <img src="./pics/ledZ.jpeg" class="card" name="0"></img>
@@ -63,7 +100,11 @@
         <img src="./pics/eminem.jpeg" class="card" name="6"></img>
         <img src="./pics/fukked.jpg" class="card" name="7"></img>
     </div>
+    <div class="background" id="background"></div>
 
+<div class="playtext" id="playtext">
+    <p> you are now Listening to .. </p>
+</div>
 
 
 
@@ -73,7 +114,7 @@
         let new_x=0.0;
         let new_y=0.0;
 
-        let wheel_radius = 210.00;
+        let wheel_radius = 300.00;
         let wheel_rot= 0.0;
 
         const cards = document.querySelectorAll('.card');
