@@ -56,8 +56,8 @@
         let wheel_radius = 150.00;
         const cards = document.querySelectorAll('.card');
         const center ={
-            x : parseFloat(getComputedStyle(card1).left),
-            y : parseFloat(getComputedStyle(card1).top)
+            x : parseFloat(getComputedStyle(cards[0]).left),
+            y : parseFloat(getComputedStyle(cards[0]).top)
         };
 
         cards.forEach((card, index)=> {
