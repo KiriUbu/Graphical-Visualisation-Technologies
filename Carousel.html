@@ -39,17 +39,36 @@
 
     <div class="wheel">
         <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
     </div>
     <script>
         let rot= Math.PI / 4.0;
+        let new_rot = 0.0;
+        let new_x=0.0;
+        let new_y=0.0;
+
         let wheel_radius = 150.00;
-        const card1 = document.querySelector('.card');
+        const cards = document.querySelectorAll('.card');
         const center ={
             x : parseFloat(getComputedStyle(card1).left),
             y : parseFloat(getComputedStyle(card1).top)
         };
-        card1.style.left= `${center.x + (Math.cos(rot) * wheel_radius)}px`;
-        card1.style.top= `${center.y + (-1.0 * Math.sin(rot) * wheel_radius )}px`;
+
+        cards.forEach((card, index)=> {
+            new_rot = rot * index;
+            new_x= (Math.cos(new_rot) * wheel_radius);
+            new_y= (-1.0 * Math.sin(new_rot) * wheel_radius );
+
+            card.style.left= `${center.x + new_x }px`;
+            card.style.top= `${center.y + new_y }px`;
+        });
+
 
 
     </script>
