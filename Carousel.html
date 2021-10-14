@@ -74,10 +74,9 @@
         });
 
         document.addEventListener('wheel', event => {
-            let scroll_speed= event.layerY;
-            console.log(scroll_speed);
+            let scroll_speed= event.deltaY *0.002;
             wheel_rot= wheel_rot + scroll_speed;
-            wheel.style.transform = `translate(-50%, -50%) rotate(${wheel_rot}deg)`;
+            wheel.style.transform = `translate(-50%, -50%) rotate(${wheel_rot * (180/Math.PI)}deg)`;
         });
 
     </script>
