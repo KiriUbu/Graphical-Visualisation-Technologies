@@ -48,9 +48,9 @@
         <img src="./pics/tool-fear-inoculum.jpg" class="card" name="5"></img>
         <img src="./pics/eminem.jpeg" class="card" name="6"></img>
         <img src="./pics/fukked.jpg" class="card" name="7"></img>
-
-
     </div>
+
+
     <script>
         let rot= Math.PI / 4.0;
         let new_rot = 0.0;
@@ -96,7 +96,24 @@
             });
         });
 
-        var audio = new Audio("");
+        // audio wird erstellt
+        var audio = new Audio('./music/Kashmir_Remaster_.mp3');
+        //Selectlist wird angesprochen mit EventListener wird Funktion chooseSong aufgerufen
+
+
+        function chooseSong(track) {
+            audio.src = track;
+        }
+
+            function playSong() {
+                audio.play();
+            }
+
+            function pauseSong() {
+                audio.pause();
+            }
+
+
 
         function rotateCards(degree){
             let coverDeg=0
@@ -105,46 +122,69 @@
                     console.log("Led Zepllin");
                     coverDeg =-91.0;
                     wheel_rot=-91.0/ (180/Math.PI);
-                    track="";
-                break;
+                    track="./music/Kashmir_Remaster_.mp3";
+                    chooseSong(track);
+                    playSong();
+                    break;
                 case "1":
                     console.log("BirdyNumNum");
                     coverDeg =-45.0;
                     wheel_rot=-45.0/ (180/Math.PI);
-                break;
+                    track="./music/Birdy Nam Nam - The Parachute Ending.mp3";
+                    chooseSong(track);
+                    playSong();
+                    break;
                 case "2":
                     console.log("deadmau5");
                     coverDeg =0;
                     wheel_rot=0;
+                    track="./music/Deadmau5 - Strobe.mp3";
+                    chooseSong(track);
+                    playSong();
                     break;
                 case "3":
                     console.log("Nirvana");
                     coverDeg =-315;
                     wheel_rot=-315/ (180/Math.PI);
+                    track="./music/Nirvana - Come As You Are.mp3";
+                    chooseSong(track);
+                    playSong();
                     break;
                 case "4":
                     console.log("Sido");
                     coverDeg =-270;
                     wheel_rot=-270/ (180/Math.PI);
+                    track="./music/Sido-Endlich Wochenende.mp3";
+                    chooseSong(track);
+                    playSong();
                     break;
                 case "5":
                     console.log("Tool");
                     coverDeg =-224;
                     wheel_rot=-224/ (180/Math.PI);
+                    track="./music/TOOL - Sober.mp3";
+                    chooseSong(track);
+                    playSong();
                     break;
                 case "6":
                     console.log("Eminem");
                     coverDeg =-180;
                     wheel_rot=-180/ (180/Math.PI);
+                    track="./music/Eminem - Stan-ft. Dido.mp3";
+                    chooseSong(track);
+                    playSong();
                     break;
                 case "7":
                     console.log("FukkedUp");
                     coverDeg =-133;
                     wheel_rot=-133/ (180/Math.PI);
+                    track="./music/FUKKED UP - Bad Luck.mp3";
+                    chooseSong(track);
+                    playSong();
                     break;
             }
 
-            audio.play();
+
             wheel.style.transform = `translate(-50%, -50%) rotate(${coverDeg}deg)`;
             cards.forEach((card, index) =>{
                 card.style.transform = `translate(-50%, -50%) rotate(${-1*(coverDeg)}deg)`;
@@ -152,6 +192,9 @@
             });
         }
     </script>
+
+
+
 
 </body>
 </html>
