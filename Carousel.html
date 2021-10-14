@@ -55,6 +55,8 @@
         let new_y=0.0;
 
         let wheel_radius = 210.00;
+        let wheel_rot= 0.0;
+
         const cards = document.querySelectorAll('.card');
         const wheel = document.querySelectorAll('.wheel');
 
@@ -74,7 +76,8 @@
 
         document.addEventListener('wheel', event => {
             let scroll_speed= event.deltaY;
-            wheel.style.transform = `translate(-50%, -50%) rotate(${rot + scroll_speed}deg)`;
+            wheel_rot= wheel_rot + scroll_speed;
+            wheel.style.transform = `translate(-50%, -50%) rotate(${wheel_rot}deg)`;
         });
 
     </script>
