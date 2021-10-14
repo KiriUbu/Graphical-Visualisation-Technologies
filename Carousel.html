@@ -59,7 +59,7 @@
 
         const cards = document.querySelectorAll('.card');
         const wheel = document.querySelectorAll('.wheel');
-
+        wheel.style.transform = `translate(-50%, -50%) rotate(${54}deg)`;
         const center ={
             x : parseFloat(getComputedStyle(cards[0]).left),
             y : parseFloat(getComputedStyle(cards[0]).top)
