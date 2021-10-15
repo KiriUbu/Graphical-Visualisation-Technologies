@@ -26,6 +26,21 @@
 
         }
 
+        .pauseButton{
+            width: 150px;
+            height: 150px;
+            opacity: 0%;
+            position: absolute;
+            background-image: url("./pics/pause.png");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: 50% 50%;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+
+        }
+
         .thirdCircle{
             width: 800px;
             height: 800px;
@@ -62,12 +77,18 @@
             border-radius: 50%;
 
         }
-
-        .playtext{
-
+        .slider{
+            width: 200px;
             position: absolute;
             left: 50%;
             top: 60%;
+            transform: translate(-50%,-50%);
+        }
+
+        .playtext{
+            position: absolute;
+            left: 50%;
+            top: 62%;
             transform: translate(-50%,-50%);
             color: rgb(246, 246, 246);
         }
@@ -101,12 +122,15 @@
         <img src="./pics/fukked.jpg" class="card" name="7"></img>
     </div>
     <div class="background" id="background"></div>
+    <div class="pauseButton" id="pauseButton"></div>
 
 <div class="playtext" id="playtext">
-    <p> you are now Listening to .. </p>
+    <p> you are now Listening to </p>
 </div>
 
-
+<div class="slidecontainer">
+    <input type="range" min="1" max="100" value="0" class="slider" id="slider">
+</div>
 
     <script>
         let rot= Math.PI / 4.0;
@@ -136,11 +160,13 @@
             card.style.top= `${center.y + new_y }px`;
         });
 
+        let current_winkel=0.00
+
         document.addEventListener('wheel', event => {
             let scroll_speed= event.deltaY *0.002;
             wheel_rot= wheel_rot + scroll_speed;
             console.log("Winkel");
-            let current_winkel= wheel_rot * (180/Math.PI);
+            current_winkel= wheel_rot * (180/Math.PI);
             console.log(current_winkel);
             wheel.style.transform = `translate(-50%, -50%) rotate(${wheel_rot * (180/Math.PI)}deg)`;
 
@@ -156,16 +182,26 @@
             });
         });
 
+        var posSlider =document.getElementById("slider");
         // audio wird erstellt
         var audio = new Audio('./music/Kashmir_Remaster_.mp3');
         //Selectlist wird angesprochen mit EventListener wird Funktion chooseSong aufgerufen
 
 
+
         function chooseSong(track) {
             audio.src = track;
+            audio.addEventListener("loadedmetadata", setSliderMax);
+            audio.addEventListener("timeupdate", setSliderVal);
+        }
+        function setSliderMax(){
+            posSlider.setAttribute('max', audio.duration);
         }
 
-            function playSong() {
+        function setSliderVal(){
+            posSlider.value = audio.currentTime;
+        }
+        function playSong() {
                 audio.play();
             }
 
@@ -245,6 +281,12 @@
             console.log("Differenz ");
             console.log(differenz);
 
+            background.onmouseover =function () {mouseOver()};
+
+            function mouseOver(){
+                console.log("du bsit drauf ");
+            }
+
             var add=0.0
             var id = setInterval(function (){
                 if (differenz > 0){
@@ -271,10 +313,39 @@
                     }
                 }
 
-
             });
-
         }
+
+
+        document.addEventListener('keydown', (event) => {
+            var name = event.key;
+            var code = event.code;
+            // Alert the key name and key code on keydown
+            console.log("Key Pressed: "+name + " "+ code);
+
+            if(code == "KeyL"){
+                rotateAllCards(-2);
+            }
+            else if(code == "KeyR"){
+                rotateAllCards(2)
+            }
+            else if(code == "KeyA"){
+                setInterval(function(){ rotateAllCards(2); }, 30);
+            }
+
+        }, false);
+
+        function rotateAllCards(degree){
+            console.log(current_winkel)
+            current_winkel = current_winkel + degree;
+
+            wheel.style.transform = `translate(-50%, -50%) rotate(${current_winkel}deg)`;
+            cards.forEach((card, index) =>{
+                card.style.transform = `translate(-50%, -50%) rotate(${-1*(current_winkel)}deg)`;
+                console.log(wheel_rot);
+                });
+        }
+
     </script>
 
 
