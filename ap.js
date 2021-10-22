@@ -13,6 +13,7 @@ var vertexShaderText =
         '}'
     ].join('\n');
 
+
 var fragmentShaderText=
     [
         'precision mediump float;',
