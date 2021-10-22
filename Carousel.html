@@ -162,6 +162,7 @@
 
         let current_winkel=0.00
 
+
         document.addEventListener('wheel', event => {
             let scroll_speed= event.deltaY *0.002;
             wheel_rot= wheel_rot + scroll_speed;
@@ -218,15 +219,15 @@
             switch (degree){
                 case "0":
                     console.log("Led Zepllin");
-                    coverDeg =-91.0;
-                    wheel_rot=-91.0/ (180/Math.PI);
+                    coverDeg =275.0;
+                    wheel_rot=-275.0/ (180/Math.PI);
                     track="./music/Kashmir_Remaster_.mp3";
                     background.style.backgroundImage = `url("./pics/ledZ.jpeg")`;
                     break;
                 case "1":
                     console.log("BirdyNumNum");
-                    coverDeg =-45.0;
-                    wheel_rot=-45.0/ (180/Math.PI);
+                    coverDeg =315.0;
+                    wheel_rot=-315.0/ (180/Math.PI);
                     track="./music/Birdy Nam Nam - The Parachute Ending.mp3";
                     background.style.backgroundImage = `url("./pics/BirdyNum.jpg")`;
                     break;
@@ -239,36 +240,36 @@
                     break;
                 case "3":
                     console.log("Nirvana");
-                    coverDeg =-315;
-                    wheel_rot=-315/ (180/Math.PI);
+                    coverDeg =45;
+                    wheel_rot=-45/ (180/Math.PI);
                     track="./music/Nirvana - Come As You Are.mp3";
                     background.style.backgroundImage = `url("./pics/nirvana.jpg")`;
                     break;
                 case "4":
                     console.log("Sido");
-                    coverDeg =-270;
-                    wheel_rot=-270/ (180/Math.PI);
+                    coverDeg =90;
+                    wheel_rot=-90/ (180/Math.PI);
                     track="./music/Sido-Endlich Wochenende.mp3";
                     background.style.backgroundImage = `url("./pics/sido.jpg")`;
                     break;
                 case "5":
                     console.log("Tool");
-                    coverDeg =-224;
-                    wheel_rot=-224/ (180/Math.PI);
+                    coverDeg =135;
+                    wheel_rot=-135/ (180/Math.PI);
                     track="./music/TOOL - Sober.mp3";
                     background.style.backgroundImage = `url("./pics/tool-fear-inoculum.jpg")`;
                     break;
                 case "6":
                     console.log("Eminem");
-                    coverDeg =-180;
-                    wheel_rot=-180/ (180/Math.PI);
+                    coverDeg =180;
+                    wheel_rot=180/ (180/Math.PI);
                     track="./music/Eminem - Stan-ft. Dido.mp3";
                     background.style.backgroundImage = `url("./pics/eminem.jpeg")`;
                     break;
                 case "7":
                     console.log("FukkedUp");
-                    coverDeg =-133;
-                    wheel_rot=-133/ (180/Math.PI);
+                    coverDeg =225;
+                    wheel_rot=-225/ (180/Math.PI);
                     track="./music/FUKKED UP - Bad Luck.mp3";
                     background.style.backgroundImage = `url("./pics/fukked.jpg")`;
                     break;
@@ -287,41 +288,16 @@
                 console.log("du bsit drauf ");
             }
 
-            var add=0.0
-            var id = setInterval(function (){
-                if (differenz > 0){
-                    if (add >differenz){
-                        clearInterval(id);
-                    }else {
-                        wheel.style.transform = `translate(-50%, -50%) rotate(${coverDeg+add}deg)`;
-                        cards.forEach((card, index) =>{
-                            card.style.transform = `translate(-50%, -50%) rotate(${-1*(coverDeg+add)}deg)`;
-                            console.log(wheel_rot);
-                        });
-                        add ++;
-                    }
-                }else{
-                    if (add <differenz){
-                        clearInterval(id);
-                    }else {
-                        wheel.style.transform = `translate(-50%, -50%) rotate(${coverDeg+add}deg)`;
-                        cards.forEach((card, index) =>{
-                            card.style.transform = `translate(-50%, -50%) rotate(${-1*(coverDeg+add)}deg)`;
-                            console.log(wheel_rot);
-                        });
-                        add --;
-                    }
-                }
+            rotateAllCardsInterval(coverDeg);
 
-            });
         }
 
-
+        let startStopAuto = true;
         document.addEventListener('keydown', (event) => {
             var name = event.key;
             var code = event.code;
             // Alert the key name and key code on keydown
-            console.log("Key Pressed: "+name + " "+ code);
+      //      console.log("Key Pressed: "+name + " "+ code);
 
             if(code == "KeyL"){
                 rotateAllCards(-2);
@@ -329,20 +305,51 @@
             else if(code == "KeyR"){
                 rotateAllCards(2)
             }
+            else if(code == "KeyS"){
+                startStopAuto=false;
+            }
             else if(code == "KeyA"){
-                setInterval(function(){ rotateAllCards(2); }, 30);
+                startStopAuto=true;
+               var id= setInterval(function(){
+                    if (startStopAuto == false){
+                        clearInterval(id);
+                    }
+
+                    rotateAllCards(2); }, 30);
             }
 
         }, false);
 
+        function rotateAllCardsInterval(coverDeg) {
+            console.log(current_winkel+" "+coverDeg);
+            let add= 0.0;
+            if(current_winkel < coverDeg){
+
+            }
+
+
+            var it= setInterval(function (){
+                if(add >= 10){
+                    clearInterval(it);
+                    add=0;
+                }
+                rotateAllCards(1);
+                add++;}, 30);
+
+        }
+
         function rotateAllCards(degree){
-            console.log(current_winkel)
+            if ((current_winkel >= 360.0) || (current_winkel <=-360.0)){
+                current_winkel =0.0;
+            }
+
+            console.log("Current winekl  "+current_winkel)
             current_winkel = current_winkel + degree;
 
             wheel.style.transform = `translate(-50%, -50%) rotate(${current_winkel}deg)`;
             cards.forEach((card, index) =>{
                 card.style.transform = `translate(-50%, -50%) rotate(${-1*(current_winkel)}deg)`;
-                console.log(wheel_rot);
+                //console.log(wheel_rot);
                 });
         }
 
