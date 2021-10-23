@@ -12,7 +12,8 @@
             padding: 0;
             width: 100vw;
             height: 100vh;
-
+            overflow: hidden;
+            background-color: #6d9886;
         }
 
         .background{
@@ -114,8 +115,19 @@
         }
 
         .Maunal {
-            width: 300px;
+            position: absolute;
+            width: 350px;
             margin-left: 50px;
+        }
+
+        #rectangle{
+            position: relative;
+            top:10px;
+            z-index: -1;
+            width:355px;
+            height:500px;
+            margin-left: 45px;
+            background-color: #d9cab3;
         }
     </style>
 </head>
@@ -150,6 +162,7 @@
     <input type="range" min="1" max="100" value="0" class="slider" id="slider">
 </div>
 
+<div id="rectangle"></div>
 <div class="Maunal">
     <h2>Esa Nr.1</h2>
     <p>Erstellt von Kyrill Klaus MatrikelNr. 7008317</p>
@@ -184,6 +197,7 @@
     <p>- Anklicken von Covers w&auml;hrend sie dreht f&uuml;hrt zu Problemen.</p>
     <p>- Der Hamster bekommt ab und an Hunger <img src="https://html5-editor.net/tinymce/plugins/emoticons/img/smiley-smile.gif" alt="smile" /></p>
 </div>
+
 
     <script>
         let rot= Math.PI / 4.0;
