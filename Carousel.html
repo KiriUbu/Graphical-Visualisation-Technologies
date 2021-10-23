@@ -102,14 +102,20 @@
             left: 50%;
             top: 50%;
             transform: translate(-50%,-50%);
+        }
 
+        .Hamster  {
+
+            position: absolute;
+            left: 60%;
+            top:55%;
         }
     </style>
 </head>
 <body>
 
 <div class="Hamster" id="hamster">
-    <img src="pics/AnimationHamster/1.png" id="frameHamster">
+    <img src="pics/AnimationHamster/4.png" id="frameHamster">
 </div>
 
 
@@ -137,7 +143,40 @@
     <input type="range" min="1" max="100" value="0" class="slider" id="slider">
 </div>
 
-
+<div class="Maunal">
+    <h2>Esa Nr.1</h2>
+    <p>Erstellt von Kyrill Klaus MatrikelNr. 7008317</p>
+    <p style="font-size: 1.5em;">Dies ist einer kleiner MediaPlayer. Der Hamster treibt das Musik Rad. Man kann auf die Album Cover klicken und die Scheibe beginnt sich zu drehen. Dies wurde mit CSS realisiert. Der Hamster ist eine Sprite Sheet Animation.</p>
+    <p style="font-size: 1.5em;">Controlls:</p>
+    <table class="editorDemoTable">
+        <tbody>
+        <tr>
+            <td><strong>Taste</strong></td>
+            <td><strong>Funktion <br /></strong></td>
+        </tr>
+        <tr>
+            <td>A</td>
+            <td>Start der Dreh-Animation</td>
+        </tr>
+        <tr>
+            <td>S</td>
+            <td>Stop der Dreh-Animation</td>
+        </tr>
+        <tr>
+            <td>L</td>
+            <td>Die Scheibe um eine Einheit nach Links</td>
+        </tr>
+        <tr>
+            <td>R</td>
+            <td>Die Scheibe um eine Einheit nach Rechts</td>
+        </tr>
+        </tbody>
+    </table>
+    <p style="font-size: 1.5em;">Bugs:</p>
+    <p>- Scrollen und Anklicken eines Covers f&uuml;hrt zur dazu das die Scheibe nicht mehr stoppt.</p>
+    <p>- Anlicken von Covers w&auml;hrend sie dreht f&uuml;hrt zu Problemen.</p>
+    <p>- Der Hamster bekommt ab und an Hunger <img src="https://html5-editor.net/tinymce/plugins/emoticons/img/smiley-smile.gif" alt="smile" /></p>
+</div>
 
     <script>
         let rot= Math.PI / 4.0;
@@ -314,9 +353,15 @@
             }
             else if(code == "KeyS"){
                 startStopAuto=false;
+                hamsterAnimationStartStop=false;
+                startHamsterAnimation();
             }
             else if(code == "KeyA"){
+                hamsterAnimationStartStop=true;
+                startHamsterAnimation();
                 startStopAuto=true;
+
+
                var id= setInterval(function(){
                     if (startStopAuto == false){
                         clearInterval(id);
@@ -327,21 +372,108 @@
 
         }, false);
 
+        var hamsterAnimationStartStop=false;
+        startHamsterAnimation();
+
+
+        function startHamsterAnimation(){
+            console.log("Hamster Los!!");
+
+            var img = document.getElementById("frameHamster");
+            var state=1;
+
+            var id=setInterval(function (){
+                if(hamsterAnimationStartStop == false){
+                    console.log("Hasmter Stop!");
+                    clearInterval(id);
+                    idleHamsterAnimation();
+                }
+                else if(hamsterAnimationStartStop== true){
+                    if(state >=4){
+                        state=1;
+                    }
+                    img.setAttribute('src',"pics/AnimationHamster/"+state+".png");
+                    state++;
+                }
+
+            },80);
+        }
+
+        function idleHamsterAnimation(){
+            console.log("Hamster Stop!!");
+          //  console.log(hamsterAnimationStartStop);
+            var state=4;
+            var img = document.getElementById("frameHamster");
+
+            var id2=setInterval(function (){
+                if(hamsterAnimationStartStop== true){
+                    clearInterval(id2);
+                }
+                else if(hamsterAnimationStartStop == false){
+                    if(state >5){
+                        state=4;
+                    }
+                    img.setAttribute('src',"pics/AnimationHamster/"+state+".png");
+                    state++;
+                }
+
+            },250);
+        }
+
         function rotateAllCardsInterval(coverDeg) {
-            console.log(current_winkel+" "+coverDeg);
+          //  console.log("Der Momentante Winkel "+current_winkel+" Der Benötigte Winkel "+coverDeg);
+            hamsterAnimationStartStop=true;
+            startHamsterAnimation();
             let add= 0.0;
             if(current_winkel < coverDeg){
-
-            }
-
-
-            var it= setInterval(function (){
-                if(add >= 10){
-                    clearInterval(it);
-                    add=0;
+                if(current_winkel >=360){
+                    current_winkel=0.0;
                 }
-                rotateAllCards(1);
-                add++;}, 30);
+
+                var id=setInterval(function (){
+                    if (current_winkel == coverDeg){
+                        console.log("Fertig");
+                        hamsterAnimationStartStop=false;
+                        startHamsterAnimation();
+                        startStopAuto= false;
+                        clearInterval(id);
+                    }
+                    current_winkel++;
+                    wheel.style.transform = `translate(-50%, -50%) rotate(${current_winkel}deg)`;
+                    cards.forEach((card, index) =>{
+                        card.style.transform = `translate(-50%, -50%) rotate(${-1*(current_winkel)}deg)`;
+                        //console.log(wheel_rot);
+                    });
+                    startStopAuto= true;
+           //         console.log("Der Momentante Winkel "+current_winkel+" Der Benötigte Winkel "+coverDeg);
+
+                },20);
+            }
+            if(current_winkel > coverDeg){
+                hamsterAnimationStartStop=true;
+
+                if(current_winkel >=360){
+                    current_winkel=0.0;
+                }
+                var id=setInterval(function (){
+                    if (current_winkel == coverDeg){
+                        startStopAuto= false;
+                        hamsterAnimationStartStop=false;
+                        startHamsterAnimation();
+                        clearInterval(id);
+                    }
+                    current_winkel--;
+                    wheel.style.transform = `translate(-50%, -50%) rotate(${current_winkel}deg)`;
+                    cards.forEach((card, index) =>{
+                        card.style.transform = `translate(-50%, -50%) rotate(${-1*(current_winkel)}deg)`;
+                        //console.log(wheel_rot);
+                    });
+                    console.log("Der Momentante Winkel "+current_winkel+" Der Benötigte Winkel "+coverDeg);
+                    startStopAuto= true;
+
+
+                },20);
+            }
 
         }
 
