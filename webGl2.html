@@ -1,0 +1,226 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>ESA 2</title>
+
+    <style>
+        #my_Canvas {
+            position: absolute;
+            top:24.9%;
+            left: 15.6%;
+        }
+
+        #quellen{
+            position: absolute;
+            top : 20%;
+            left:50%;
+
+        }
+    </style>
+</head>
+<body>
+
+<img src="pics/esa2/arcade.png"></img>
+<canvas width = "360" height = "300" id = "my_Canvas"></canvas>
+<div id="quellen">
+    <h1 style="color: #5e9ca0;">Dokumentation:</h1>
+    <h2 style="color: #2e6c80;">Beschreibung:</h2>
+    <p>Kyrill Klaus 7008317 ESA Nr.2</p>
+    <h2 style="color: #2e6c80;">Quellen:</h2>
+    <p>- Lernmaterial 3-6</p>
+    <p>-<a href="https://www.kindpng.com/imgv/ooxbiR_svg-black-and-white-arcade-clipart-transparent-arcade/">Arcade Png </a></p>
+    <p>&nbsp;</p>
+    <p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>
+    <h2 style="color: #2e6c80;">&nbsp;</h2>
+    <p>&nbsp;</p>
+    <p><strong>&nbsp;</strong></p>
+</div>
+<script>
+    /*======= Creating a canvas =========*/
+
+    var canvas = document.getElementById('my_Canvas');
+    var gl = canvas.getContext('experimental-webgl');
+
+    /*======= Defining and storing the geometry ======*/
+
+    var vertices = [
+
+//        -1,0,0,
+ //       1,0,0,
+  //     0,-1,0,   //coordiantes
+   //     0,1,0,
+
+
+        -0.5,0.98,0,     // top top
+        0.5, 0.98,0,
+
+        -0.5,0.98,0,     //left Top
+        -0.8,0.8,0,
+        0.5, 0.98,0,     //right Top
+        0.8, 0.8, 0,
+
+        -0.2,0.7,0,      //left Brow
+        -0.7,0.8,0,
+        0.2, 0.7,0,     //right Brow
+        0.7, 0.8, 0,
+
+        -0.2,0.7,0,      //left brow side right
+        -0.2,0.65,0,
+        0.2,0.7,0,       //right brow side left
+        0.2,0.65,0,
+
+        0.7,0.7,0,       //right brow side right
+        0.7,0.8,0,
+        -0.7,0.7,0,       //left brow side left
+        -0.7,0.8,0,
+
+        -0.2,0.65,0,      //left Brow Bottom
+        -0.7,0.7,0,
+        0.2, 0.65,0,     //right Brow Bottom
+        0.7, 0.7, 0,
+
+        -0.25,0.45,0,      //left Eye Top
+        -0.6,0.5,0,
+        0.25, 0.45,0,     //right Eye Top
+        0.6, 0.5, 0,
+        -0.25,0.25,0,      //left Eye bottum
+        -0.6,0.25,0,
+        0.25, 0.25,0,     //right Eye bottum
+        0.6, 0.25, 0,
+        -0.25,0.45,0,       //left Eye right
+        -0.25,0.25,0,
+        0.25, 0.45,0,       //right Eye left
+        0.25, 0.25,0,
+        0.6, 0.5, 0,      //right eye Right
+        0.6, 0.25,0,
+        -0.6, 0.5, 0,       //left Eye left
+        -0.6, 0.25,0,
+
+        -.1,-.1,0,          //nose bottum
+        .1,-.1,0,
+        -.1,-.1,0,         // nose left
+        0,.2,0,
+        .1,-.1,0,           //nose right
+        0,.2,0,
+
+        -0.55,-.3,0,     // left Mund
+        0,    -.5,0,
+        -0.55,-.3,0,     // left Mund TOP
+        0,    -.2,0,
+
+        0.55,-.3,0,      // right Mund
+        0,    -.5,0,
+        0.55,-.3,0,     // left Mund TOP
+        0,    -.2,0,
+
+        -0.8,0.8,0,     // left side
+        -0.75,-.4,0,
+        0.8, 0.8, 0,    // right side
+        0.78,-.4,0,
+
+        -0.75,-.4,0,    // left kinn
+        0,    -.85,0,
+        0.78,-.4,0,     //right kinn
+        0,    -.85,0
+
+
+    ]
+
+    // Create an empty buffer object
+    var vertex_buffer = gl.createBuffer();
+
+    // Bind appropriate array buffer to it
+    gl.bindBuffer(gl.ARRAY_BUFFER, vertex_buffer);
+
+    // Pass the vertex data to the buffer
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+
+    // Unbind the buffer
+    gl.bindBuffer(gl.ARRAY_BUFFER, null);
+
+    /*=================== Shaders ====================*/
+
+    // Vertex shader source code
+    var vertCode =
+        'attribute vec3 coordinates;' +
+        'void main(void) {' +
+        ' gl_Position = vec4(coordinates, 1.0);' +
+        '}';
+
+    // Create a vertex shader object
+    var vertShader = gl.createShader(gl.VERTEX_SHADER);
+
+    // Attach vertex shader source code
+    gl.shaderSource(vertShader, vertCode);
+
+    // Compile the vertex shader
+    gl.compileShader(vertShader);
+
+    // Fragment shadwwwwwwwwwwwwwwer source code
+    var fragCode =
+        'void main(void) {' +
+        'gl_FragColor = vec4(0.0, 1.0, 0.0, 1);' +
+        '}';
+
+    // Create fragment shader object
+    var fragShader = gl.createShader(gl.FRAGMENT_SHADER);
+
+    // Attach fragment shader source code
+    gl.shaderSource(fragShader, fragCode);
+
+    // Compile the fragmentt shader
+    gl.compileShader(fragShader);
+
+    // Create a shader program object to store
+    // the combined shader program
+    var shaderProgram = gl.createProgram();
+
+    // Attach a vertex shader
+    gl.attachShader(shaderProgram, vertShader);
+
+    // Attach a fragment shader
+    gl.attachShader(shaderProgram, fragShader);
+
+    // Link both the programs
+    gl.linkProgram(shaderProgram);
+
+    // Use the combined shader program object
+    gl.useProgram(shaderProgram);
+
+    /*======= Associating shaders to buffer objects ======*/
+
+    // Bind vertex buffer object
+    gl.bindBuffer(gl.ARRAY_BUFFER, vertex_buffer);
+
+    // Get the attribute location
+    var coord = gl.getAttribLocation(shaderProgram, "coordinates");
+
+    // Point an attribute to the currently bound VBO
+    gl.vertexAttribPointer(coord, 3, gl.FLOAT, false, 0, 0);
+
+    // Enable the attribute
+    gl.enableVertexAttribArray(coord);
+
+    /*============ Drawing the triangle =============*/
+
+    // Clear the canvas
+    gl.clearColor(0.0, 0.0, 0.0, 1);
+
+    // Enable the depth test
+    gl.enable(gl.DEPTH_TEST);
+
+    // Clear the color and depth buffer
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+    // Set the view port
+    gl.viewport(0,0,canvas.width,canvas.height);
+
+    // Draw the triangle
+    gl.drawArrays(gl.LINES, 0, 128);
+
+    // POINTS, LINE_STRIP, LINE_LOOP, LINES,
+    // TRIANGLE_STRIP,TRIANGLE_FAN, TRIANGLES
+</script>
+</body>
+</html>
