@@ -42,6 +42,19 @@
     var canvas = document.getElementById('my_Canvas');
     var gl = canvas.getContext('experimental-webgl');
 
+
+
+    canvas.addEventListener("mousedown", MouseDown, false);
+
+
+    function MouseDown(event){
+        var ndcX = (event.offsetX / canvas.clientWidth) * 2 - 1;
+        var ndcY = (1 - (event.offsetY / canvas.clientHeight)) * 2 - 1;
+
+        console.log(ndcX+ " : "+ ndcY);
+
+        drawPoint(ndcX,ndcY);
+    }
     /*======= Defining and storing the geometry ======*/
 
     var vertices = [
@@ -127,6 +140,10 @@
 
     ]
 
+
+    function drawPoint(x,y){
+        vertices.push(x,y,0);
+    }
     // Create an empty buffer object
     var vertex_buffer = gl.createBuffer();
 
@@ -201,6 +218,11 @@
 
     // Enable the attribute
     gl.enableVertexAttribArray(coord);
+
+    /* mouse movment */
+    let mouseX = -1;
+    const pixelX = mouseX * gl.canvas.width / gl.canvas.clientWidth;
+    console.log(pixelX);
 
     /*============ Drawing the triangle =============*/
 
