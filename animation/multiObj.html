@@ -1,0 +1,324 @@
+<!-- Licensed under a BSD license. See license.html for license -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>WebGL - Multiple Objects - Manual</title>
+  <link type="text/css" href="resources/webgl-tutorials.css" rel="stylesheet" />
+</head>
+<body>
+<div class="description">
+ <h1>Kyrill Klaus 7008317</h1>
+  <h2>ESA Nr.6</h2>
+</div>
+<div>
+  <p>Drücken sie die Taste: "K" um die Animation zu starten oder zu stoppen</p>
+</div>
+
+<div id="RotationSpeedTorus" style="position:absolute; left: 10px;top:16%;"></div>
+<div id="RotationSpeedSpheres" style="position:absolute; left: 10px; top:18%;"></div>
+<canvas id="canvas"></canvas>
+<div id="Quellen">
+  <h2>Quellen</h2>
+  <p><a href="https://webglfundamentals.org/webgl/lessons/webgl-3d-camera.html#toc">webglfundamentals_3d-camera</a></p>
+  <p><a href="https://webglfundamentals.org/webgl/lessons/webgl-drawing-multiple-things.html">webglfundamental_webgl-drawing-multiple-things</a></p>
+  <p>Lerneinheiten 1-11 bis einschließlich TFM </p>
+  <p>&nbsp;</p>
+</div>
+
+</body>
+
+<script src="resources/webgl-utils.js"></script>
+<script src="resources/m4.js"></script>
+<script src="resources/primitives.js"></script>
+<script src="resources/webgl-lessons-ui.js"></script>
+<!-- vertex shader -->
+<script id="vertex-shader-3d" type="x-shader/x-vertex">
+attribute vec4 a_position;
+attribute vec4 a_color;
+
+uniform mat4 u_matrix;
+
+varying vec4 v_color;
+
+void main() {
+  // Multiply the position by the matrix.
+  gl_Position = u_matrix * a_position;
+
+  // Pass the color to the fragment shader.
+  v_color = a_color;
+}
+</script>
+<!-- fragment shader -->
+<script id="fragment-shader-3d" type="x-shader/x-fragment">
+precision mediump float;
+
+// Passed in from the vertex shader.
+varying vec4 v_color;
+
+uniform vec4 u_colorMult;
+
+void main() {
+   gl_FragColor = v_color * u_colorMult;
+}
+</script>
+<script>
+  "use strict";
+
+  function main() {
+    // Get A WebGL context
+    /** @type {HTMLCanvasElement} */
+    var canvas = document.querySelector("#canvas");
+    var gl = canvas.getContext("webgl");
+    if (!gl) {
+      return;
+    }
+
+    const sphereBufferInfo = primitives.createSphereWithVertexColorsBufferInfo(gl, 10, 12, 6);
+    const sphere2BufferInfo   = primitives.createSphereWithVertexColorsBufferInfo(gl, 10, 12, 6);
+    const sphere3BufferInfo   = primitives.createSphereWithVertexColorsBufferInfo(gl, 10, 12, 6);
+    const sphere4BufferInfo   = primitives.createSphereWithVertexColorsBufferInfo(gl, 10, 12, 6);
+    const turosBufferInfo   = primitives.createTruncatedConeBufferInfo(gl, 30, 20, 18,10,100,false,false);
+
+    console.log(sphereBufferInfo);
+
+    // setup GLSL program
+    var programInfo = webglUtils.createProgramInfo(gl, ["vertex-shader-3d", "fragment-shader-3d"]);
+
+    function degToRad(d) {
+      return d * Math.PI / 180;
+    }
+    function degToRad(d) {
+      return d * Math.PI / 180;
+    }
+
+    var fieldOfViewRadians = degToRad(60);
+
+    // Uniforms for each object.
+    var sphereUniforms = {
+      u_colorMult: [0.5, 1, 0.5, 1],
+      u_matrix: m4.identity(),
+    };
+    var sphere3Uniforms = {
+      u_colorMult: [1, 0, 1, 1],
+      u_matrix: m4.identity(),
+    };
+    var sphere4Uniforms = {
+      u_colorMult: [1, 0, 0, 1],
+      u_matrix: m4.identity(),
+    };
+    var torusUniforms = {
+      u_colorMult: [1, 0, 0, 1],
+      u_matrix: m4.identity(),
+    };
+
+    var coneUniforms = {
+      u_colorMult: [0.5, 0.5, 1, 1],
+      u_matrix: m4.identity(),
+    };
+    var sphereTranslation = [  -40, 0, 0];
+    var torusTranslation   = [-100, 1, 0];
+    var sphere2Translation   = [ 0, 0, 0];
+    var sphere3Translation   = [ 0, 0, 0];
+    var sphere4Translation   = [ -20, 0, 0];
+
+    function computeMatrix(viewProjectionMatrix, translation, xRotation, yRotation) {
+      var matrix = m4.translate(viewProjectionMatrix,
+              translation[0],
+              translation[1],
+              translation[2]);
+      matrix = m4.xRotate(matrix, xRotation);
+      return m4.yRotate(matrix, yRotation);
+    }
+
+    var correction=0;
+
+    webglLessonsUI.setupSlider("#RotationSpeedTorus", { slide: updateRotationSpeed,min:-2 ,max: 3,step: 0.01, precision: 2,value: 1 });
+    function updateRotationSpeed(event, ui){
+      console.log(ui.value);
+      rotSp= ui.value;
+    }
+    var rotSpSphere=1;
+    webglLessonsUI.setupSlider("#RotationSpeedSpheres", { slide: updateRotationSpeed,min:-2 ,max: 3,step: 0.01, precision: 2,value: 1 });
+    function updateRotationSpeed(event, ui){
+      console.log(ui.value);
+      rotSpSphere= ui.value;
+    }
+    var rotSp=1;
+
+    var startAnimation= true;
+    document.addEventListener('keydown', function(event){
+      if(event.keyCode=='75'){
+        if(!startAnimation){
+          startAnimation=true;
+          requestAnimationFrame(drawScene);
+        }
+        else {
+          startAnimation=false;
+        }
+      }
+    } );
+
+    requestAnimationFrame(drawScene);
+
+    // Draw the scene.
+    function drawScene(time) {
+      time *= 0.0005;
+
+      webglUtils.resizeCanvasToDisplaySize(gl.canvas);
+
+      // Tell WebGL how to convert from clip space to pixels
+      gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+
+     // gl.enable(gl.CULL_FACE);
+      gl.enable(gl.DEPTH_TEST);
+
+      // Clear the canvas AND the depth buffer.
+      gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+      // Compute the projection matrix
+      var aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
+      var projectionMatrix =
+              m4.perspective(fieldOfViewRadians, aspect, 1, 2000);
+
+      // Compute the camera's matrix using look at.
+      var cameraPosition = [0, 80, 250];
+      var target = [0, 0, 0];
+      var up = [0, 1, 0];
+      var cameraMatrix = m4.lookAt(cameraPosition, target, up);
+
+      // Make a view matrix from the camera matrix.
+      var viewMatrix = m4.inverse(cameraMatrix);
+
+      var viewProjectionMatrix = m4.multiply(projectionMatrix, viewMatrix);
+      var sphereXRotation =  time;
+      var sphereYRotation =  time;
+      //var sphereTranslation = time;
+      var coneXRotation   =  time;
+      var coneYRotation   = -time;
+
+      var torusXRotation =(time*4/2*Math.PI)*rotSp;
+
+      var torusYRotation = 0;
+
+      var numFs = 4;
+      var radius = 100;
+      var rotationspeed = (time*4/8*Math.PI)*rotSpSphere;
+
+
+      var angle = 1 * Math.PI * 2 / numFs;
+      var x = Math.cos(angle+rotationspeed) * radius;
+      var y = Math.sin(angle+rotationspeed) * radius;
+      sphereTranslation = [  x, 0, y];
+
+      var angle2 = 2 * Math.PI * 2 / numFs;
+      var x = Math.cos(angle2+rotationspeed) * radius;
+      var y = Math.sin(angle2+rotationspeed) * radius;
+      sphere2Translation = [  x, 0, y];
+
+      var angle3 = 3 * Math.PI * 2 / numFs;
+      var x = Math.cos(angle3+(rotationspeed)) * radius;
+      var y = Math.sin(angle3+(rotationspeed)) * radius;
+      sphere3Translation = [  x, 0, y];
+
+
+      var angle4 = 4 * Math.PI * 2 / numFs;
+      var x = Math.cos(angle4+rotationspeed) * radius;
+      var y = Math.sin(angle4+rotationspeed) * radius;
+      sphere4Translation = [  x, 0, y];
+
+
+
+      // ------ Draw the sphere --------
+
+      gl.useProgram(programInfo.program);
+
+      // Setup all the needed attributes.
+      webglUtils.setBuffersAndAttributes(gl, programInfo, sphereBufferInfo);
+
+      sphereUniforms.u_matrix = computeMatrix(
+              viewProjectionMatrix,
+              sphereTranslation,
+              sphereXRotation,
+              sphereYRotation);
+
+      // Set the uniforms we just computed
+      webglUtils.setUniforms(programInfo, sphereUniforms);
+
+      gl.drawArrays(gl.TRIANGLES, 0, sphereBufferInfo.numElements);
+
+      // ------ Draw the sphere3 --------
+      webglUtils.setBuffersAndAttributes(gl, programInfo, sphere3BufferInfo);
+
+      sphere3Uniforms.u_matrix = computeMatrix(
+              viewProjectionMatrix,
+              sphere3Translation,
+              sphereXRotation,
+              sphereYRotation);
+
+      // Set the uniforms we just computed
+      webglUtils.setUniforms(programInfo, sphere3Uniforms);
+
+      gl.drawArrays(gl.TRIANGLES, 0, sphereBufferInfo.numElements);
+
+
+      // ------ Draw the sphere4 --------
+      webglUtils.setBuffersAndAttributes(gl, programInfo, sphere4BufferInfo);
+
+      sphere4Uniforms.u_matrix = computeMatrix(
+              viewProjectionMatrix,
+              sphere4Translation,
+              sphereXRotation,
+              sphereYRotation);
+
+      // Set the uniforms we just computed
+      webglUtils.setUniforms(programInfo, sphere4Uniforms);
+
+      gl.drawArrays(gl.TRIANGLES, 0, sphere4BufferInfo.numElements);
+
+      // ------ Draw the Torus --------
+
+      // Setup all the needed attributes.
+      webglUtils.setBuffersAndAttributes(gl, programInfo, turosBufferInfo);
+
+      torusUniforms.u_matrix = computeMatrix(
+              viewProjectionMatrix,
+              torusTranslation,
+              torusXRotation,
+              0,
+              0);
+
+      // Set the uniforms we just computed
+      webglUtils.setUniforms(programInfo, torusUniforms);
+
+      gl.drawArrays(gl.TRIANGLES, 0, sphere2BufferInfo.numElements);
+
+      // ------ Draw the Sphere 2 --------
+
+      // Setup all the needed attributes.
+      webglUtils.setBuffersAndAttributes(gl, programInfo, sphere2BufferInfo);
+
+      coneUniforms.u_matrix = computeMatrix(
+              viewProjectionMatrix,
+              sphere2Translation,
+              coneXRotation,
+              coneYRotation);
+
+      // Set the uniforms we just computed
+      webglUtils.setUniforms(programInfo, coneUniforms);
+
+      gl.drawArrays(gl.TRIANGLES, 0, sphere2BufferInfo.numElements);
+
+      if(startAnimation ){
+        requestAnimationFrame(drawScene);
+      }
+    }
+  }
+
+  main();
+</script>
+</html>
+
+
+
