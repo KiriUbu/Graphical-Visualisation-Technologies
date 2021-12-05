@@ -1,0 +1,76 @@
+<!DOCTYPE html5>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ESA Nr.7 Kyrill Klaus </title>
+    <style>
+        #canvas{
+            position: absolute;
+            top:200px;
+            left:20%;
+        }
+        #Beschreinbung{
+            position: absolute;
+            top: 500px;
+            left: 20%;
+        }
+    </style>
+
+    <script src="gl-matrix.js"></script>
+    <script src="VertexData_sphere.js"></script>
+    <script src="VertexData_plane.js"></script>
+
+    <script defer src="ea7.js"></script>
+
+    <script type="x-shader/x-vertex" id="vertexshader">
+            precision mediump float;
+
+			attribute vec3 aPosition;
+			attribute vec3 aNormal;
+
+			uniform mat4 uPMatrix;
+			uniform mat4 uMVMatrix;
+            uniform mat3 uNMatrix;
+            uniform vec4 uColor;
+
+			varying vec4 vColor;
+
+			void main(){
+                float displacement = cos(aPosition.x) * cos(aPosition.z);
+                vec3 newPosition = aPosition + displacement * vec3(0.0, 0.0, 0.0);
+
+                gl_Position = uPMatrix * uMVMatrix * vec4(newPosition, 1.);
+
+                vec3 tNormal = uNMatrix * aNormal;
+
+                vColor = uColor;
+			}
+		</script>
+
+    <script type="x-shader/x-fragment" id="fragmentshader">
+			precision mediump float;
+			varying vec4 vColor;
+
+			void main() {
+			gl_FragColor = vec4(gl_FragCoord.z, gl_FragCoord.z, gl_FragCoord.z, 1.0);
+			}
+		</script>
+</head>
+
+<body onload="app.start()">
+
+<canvas id="canvas" width="400" height="300"></canvas>
+
+<diV id="Beschreinbung">
+    <h1>ESA Nr.7 Kyrill Klaus 7008317</h1>
+    <h2>Beschreibung</h2>
+    <p>Mit den Pfeiltasten Oben und Unten lassen sich die Kugel vor </br> und zurück verschieben, sodass sie im Nebel verschwimmen. </p>
+
+
+</diV>
+
+
+</body>
+<script src="app.js"></script>
+</html>
