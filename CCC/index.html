@@ -1,15 +1,57 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="en-us" xmlns="http://www.w3.org/1999/html">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Unity WebGL Player | CoronaSimulation</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
+
+    <style>
+      #Beschreibung{
+        position: absolute;
+        left: 20px;
+        width: 400px;
+      }
+
+      #unity-container{
+        position: absolute;
+        left: 800px;
+      }
+
+    </style>
   </head>
   <body>
+  <div id="Beschreibung">
+    <h1>CCC-Christmas & Corona Challenge</h1>
+    <p>Kyrill Klaus 7008317</p>
+    <p>Beschreibung: </br>Es gibt 3 Klassen. </br> 1. Gesunde: Diese haben grüne Haare, können angesteckt werden und laufen selbständig zum nächsten Impfzentrum.</br></br>
+    2. Kranke: Diese haben rote Haare und können in einem Radius Gesunde anstecken.
+      Sie bewegen sich langsamer als Gesunde und laufen ebenfalls selbständig zum nächsten Impfzentrum, sofern sich dieses in ihrer Reichweite befindet.</br></br>
+    3. Geimpfte: Diese haben blaue Haare und sind gegen alle immun. </br></br>
+    Besonderheiten: </br>
+    1. Kranke und Gesunde laufen selbständig zu einem Impfzentrum, wenn sich dieses in der Reichweite befindet. </br></br>
+    2. Wenn ein Gesunder angesteckt wurde, so geht er nach "Hause" und steckt auf dem Heimweg 4 neue an. </br></br>
+
+    Steuerung: </br>
+      1. Mit den Tasten Gesunde,Kranke und Impfzentrum, lassen sie zufällig auf der Karte die dazu gehörigen Objekte erzeugen. </br>
+      2. Die Kamera ist frei steuerbar. Mit WASD und der Rechten Maustaste lässt sie sich steuern. </br></br>
+
+
+      Erklärung:</br>
+      Zur Erstellung dieser Aufgabe habe ich Unity verwendet, da es dort eine WebGl Schnittstelle gibt. Diese hat es mir ermöglicht komplizierte Objekte zu animieren
+      und zu verwenden. Ich hoffe das war nicht gegen die Vorgaben. </br></br>
+
+      Achtung: Bei zu vielen Objekten läuft die Simulation immer langsamer.
+
+    </br>
+
+    </p>
+
+
+  </div>
     <div id="unity-container" class="unity-desktop">
-      <canvas id="unity-canvas" width=960 height=600></canvas>
+      <canvas id="unity-canvas" width=1000 height=600></canvas>
       <div id="unity-loading-bar">
         <div id="unity-logo"></div>
         <div id="unity-progress-bar-empty">
